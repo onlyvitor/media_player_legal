@@ -3,10 +3,12 @@
 //
 #ifndef IMAGE_VIEWER_WINDOW_H
 #define IMAGE_VIEWER_WINDOW_H
-#include <stdio.h>
-#include <stdlib.h>
+
+#include <stdbool.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "../render/render.h"
-int programWindow();
+
+int window_run(void);
+
 #endif //IMAGE_VIEWER_WINDOW_H
