@@ -7,5 +7,6 @@
 #include <stdlib.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include "../render/render.h"
 int programWindow();
 #endif //IMAGE_VIEWER_WINDOW_H

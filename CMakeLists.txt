@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 17)
 
 add_executable(image_viewer main.c
         window/window.c
-        window/window.h)
+        window/window.h
+        render/render.c
+        render/render.h)

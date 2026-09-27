@@ -19,6 +19,8 @@ int programWindow() {
         return 1;
     }
 
+    render_init(window, 0,255,0);
+
     SDL_Delay(10000);
     return 0;
 }
