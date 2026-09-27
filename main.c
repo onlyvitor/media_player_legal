@@ -1,6 +1,5 @@
 #include "window/window.h"
 
 int main(void) {
-    programWindow();
-    return 0;
+    return window_run();
 }
