@@ -5,10 +5,11 @@
 #ifndef IMAGE_VIEWER_RENDER_DRAW_H
 #define IMAGE_VIEWER_RENDER_DRAW_H
 
-#include <stdio.h>
-#include <SDL3/SDL_render.h>
-#include <SDL3/SDL_init.h>
-#include <inttypes.h>
-void render_init(SDL_Window *window, uint8_t r, uint8_t g, uint8_t b);
+#include <stdint.h>
+#include <SDL3/SDL.h>
+
+SDL_Renderer *render_init(SDL_Window *window);
+void render_draw_solid_color_in_window(SDL_Renderer *ren, uint8_t r, uint8_t g, uint8_t b);
+void render_shutdown(SDL_Renderer *ren);
 
 #endif //IMAGE_VIEWER_RENDER_DRAW_H
