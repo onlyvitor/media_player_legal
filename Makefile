@@ -1,31 +1,38 @@
-CC      = gcc
-CFLAGS  = -Wall -Wextra -std=c17
-LDFLAGS =
+# Compilador e flags
+CC      := gcc
+CFLAGS  := -Wall -Wextra -std=c17 $(shell pkg-config --cflags sdl3)
+LDFLAGS := $(shell pkg-config --libs sdl3)
 
-BUILD_DIR = build
-TARGET    = $(BUILD_DIR)/image-viewer
+# Alvos e objetos
+BUILD_DIR := build
+TARGET    := $(BUILD_DIR)/image-viewer
 
-SRCS = $(wildcard *.c src/*.c window/*.c)
-OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
-DEPS = $(OBJS:.o=.d)
+SRCS := main.c window/window.c
+OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
+DEPS := $(OBJS:.o=.d)
 
+# Regra principal
 all: $(TARGET)
 
-$(TARGET): $(OBJS) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
+# Linka os objetos no executavel final
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
-$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+# Compila cada .c para build/<caminho>/<nome>.o
+# mkdir -p garante que build/window/ exista antes do GCC escrever o .o/.d
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
-
+# Limpa tudo que foi gerado
 clean:
 	rm -rf $(BUILD_DIR)
 
--include $(DEPS)
-
-run:
+# Compila (se preciso) e roda
+run: all
 	./$(TARGET)
 
-.PHONY: all clean
+.PHONY: all clean run
+
+# Dependencias automaticas (headers que cada .o inclui)
+-include $(DEPS)

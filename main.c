@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include "window/window.h"
 
 int main(void) {
-    printf("Hello, World!\n");
+    programWindow();
     return 0;
 }
