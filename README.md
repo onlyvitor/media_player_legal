@@ -2,23 +2,12 @@
 
 ![demo](https://c.tenor.com/t5XC2aARCf0AAAAC/tenor.gif)
 
-Um visualizador de imagens escrito em C com SDL3 — e um projeto que **almeja** se tornar um media player completo de imagens, vídeos e músicas.
-
-## Visão
-
-O objetivo a longo prazo é evoluir de um simples visualizador de imagens para um media player completo:
-
-- **Imagens** — visualização, zoom, rotação e navegação entre arquivos (foco atual)
-- **Vídeos** — playback de vídeos com controles básicos (planejado)
-- **Músicas** — playback de áudio com playlist e controles de mídia (planejado)
+Um vizualizador de imagens extremamente simples para me divertir :)
+Tem como objetivo ser um media player geral para uso geral, isto é, tocar músicas, vídeos e mostrar imagens. Utilizar ffmpeg para decodificar arquivos mais complexos e decodificar arquivos mais simples.
 
 ## Status atual
 
-- [x] Abertura de janela com SDL3
-- [x] Renderização de cor sólida
-- [ ] Exibição de imagens
-- [ ] Player de vídeos
-- [ ] Player de músicas
+Basicamante so consegue mostar uma cor solida :3
 
 ## Dependências
 
@@ -48,6 +37,8 @@ make clean
 
 ```
 ├── main.c           # Ponto de entrada
+├── decoder          # Decoder
+├    └──image        # Decoder de Imagens
 ├── window/          # Criação e gerenciamento da janela (SDL3)
 ├── render/          # Renderer (SDL_Renderer) e desenho
 └── build/           # Artefatos gerados pelo Makefile
