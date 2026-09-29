@@ -9,8 +9,8 @@
 #include <stdio.h>
 
 typedef struct image {
-    uint16_t width;
-    uint16_t height;
+    uint32_t width;
+    uint32_t height;
 } image_t;
 
 typedef struct ppm_pixel {
@@ -19,9 +19,9 @@ typedef struct ppm_pixel {
     uint8_t b;
 } ppm_pixel_t;
 
-struct ppm_decoded {
+typedef struct ppm_decoded {
     image_t dims;
-    ppm_pixel_t pixel;
-};
+    ppm_pixel_t *pixels;
+} ppm_decoded_t;
 
 #endif //IMAGE_VIEWER_PPM_DECODER_H
