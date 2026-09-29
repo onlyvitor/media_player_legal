@@ -8,4 +8,6 @@ add_executable(image_viewer main.c
         window/window.h
         render/render.c
         render/render.h
+        decoder/image/ppm_decoder.c
+        decoder/image/ppm_decoder.h
 )
