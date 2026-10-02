@@ -18,4 +18,8 @@ ppm_decoded_t *ppm_decode(const char *file) {
         printf("ppm_decoded_t: could not open file %s\n", file);
         return NULL;
     }
+    //check if is a .ppm file
+    if (buff[0] != 'P' || buff[1] != '6') {
+        printf("ppm_decoded_t: not a PPM file\n");
+    }
 }
