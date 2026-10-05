@@ -42,7 +42,6 @@ static int ppm_read_uint(FILE *fp, unsigned int *value) {
   return 1;
 }
 
-// TODO: finilize this shit
 ppm_decoded_t *ppm_decode(const char *file) {
   // ppm magic number ("P6")
   char magic[2];
@@ -65,17 +64,23 @@ ppm_decoded_t *ppm_decode(const char *file) {
   // allocate the image for the heap
   img = (ppm_decoded_t *)malloc(sizeof(ppm_decoded_t));
   if (!img) {
-    printf("ppm_decoded_t: unable to alocate the image to heap");
+    fprintf(stderr, "ppm_decode: unable to allocate the image to heap\n");
+    fclose(fp);
+    return NULL;
   }
 
   // read image size information (comments are skipped inside ppm_read_uint)
   if (!ppm_read_uint(fp, &width) || !ppm_read_uint(fp, &height)) {
-    fprintf(stderr, "Invalid image size (error loading '%s')\n", file);
-    exit(1);
+    fprintf(stderr, "ppm_decode: invalid image size (error loading '%s')\n", file);
+    free(img);
+    fclose(fp);
+    return NULL;
   }
   if (width == 0 || height == 0) {
-    fprintf(stderr, "Empty image dimensions %ux%u (error loading '%s')\n", width, height, file);
-    exit(1);
+    fprintf(stderr, "ppm_decode: empty image dimensions %ux%u (error loading '%s')\n", width, height, file);
+    free(img);
+    fclose(fp);
+    return NULL;
   }
   img->dims.width = width;
   img->dims.height = height;
@@ -83,31 +88,42 @@ ppm_decoded_t *ppm_decode(const char *file) {
   // read rgb component; ppm_read_uint consumes the single whitespace
   // that separates the header from the binary pixel data
   if (!ppm_read_uint(fp, &max_rgb)) {
-    fprintf(stderr, "Invalid rgb component (error loading '%s')\n", file);
-    exit(1);
+    fprintf(stderr, "ppm_decode: invalid rgb component (error loading '%s')\n", file);
+    free(img);
+    fclose(fp);
+    return NULL;
   }
   // each component is stored in one byte, so maxval must fit in 8 bits
   if (max_rgb == 0 || max_rgb > 255) {
-    fprintf(stderr, "Unsupported maxval %u, only 8-bit ppm is supported (error loading '%s')\n", max_rgb, file);
-    exit(1);
+    fprintf(stderr, "ppm_decode: unsupported maxval %u, only 8-bit ppm is supported (error loading '%s')\n", max_rgb, file);
+    free(img);
+    fclose(fp);
+    return NULL;
   }
   // memory allocation for pixel data (guard against size_t overflow)
   if (width > SIZE_MAX / sizeof(ppm_pixel_t) / height) {
-    fprintf(stderr, "Image too large to allocate %ux%u (error loading '%s')\n", width, height, file);
-    exit(1);
+    fprintf(stderr, "ppm_decode: image too large to allocate %ux%u (error loading '%s')\n", width, height, file);
+    free(img);
+    fclose(fp);
+    return NULL;
   }
   size_t pixel_count = (size_t)width * (size_t)height;
   img->pixels = (ppm_pixel_t *)malloc(pixel_count * sizeof(ppm_pixel_t));
 
   if (!img->pixels) {
-    fprintf(stderr, "Unable to allocate memory\n");
-    exit(1);
+    fprintf(stderr, "ppm_decode: unable to allocate memory\n");
+    free(img);
+    fclose(fp);
+    return NULL;
   }
 
   // read pixel data from file
   if (fread(img->pixels, sizeof(ppm_pixel_t), pixel_count, fp) != pixel_count) {
-    fprintf(stderr, "Error loading image '%s'\n", file);
-    exit(1);
+    fprintf(stderr, "ppm_decode: error loading image '%s'\n", file);
+    free(img->pixels);
+    free(img);
+    fclose(fp);
+    return NULL;
   }
 
   fclose(fp);
