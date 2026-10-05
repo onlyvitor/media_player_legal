@@ -2,15 +2,53 @@
 // Created by vitor on 28/09/2026.
 //
 
+#include <ctype.h>
+
 #include "ppm_decoder.h"
+
+// skips whitespace and '#' comments, reads one unsigned integer and
+// consumes the single whitespace character that follows it
+static int ppm_read_uint(FILE *fp, unsigned int *value) {
+  int c;
+  unsigned int parsed = 0;
+  for (;;) {
+    c = fgetc(fp);
+    if (c == EOF) {
+      return 0;
+    }
+    if (c == '#') {
+      while ((c = fgetc(fp)) != EOF && c != '\n')
+        ;
+      continue;
+    }
+    if (!isspace((unsigned char)c)) {
+      break;
+    }
+  }
+  if (!isdigit((unsigned char)c)) {
+    return 0;
+  }
+  do {
+    if (parsed > (UINT32_MAX - 9u) / 10u) {
+      return 0;
+    }
+    parsed = parsed * 10u + (unsigned int)(c - '0');
+    c = fgetc(fp);
+  } while (c != EOF && isdigit((unsigned char)c));
+  if (c != EOF && !isspace((unsigned char)c)) {
+    return 0;
+  }
+  *value = parsed;
+  return 1;
+}
 
 // TODO: finilize this shit
 ppm_decoded_t *ppm_decode(const char *file) {
   // ppm magic number ("P6")
   char magic[2];
   ppm_decoded_t *img;
-  // commentaries in the ppm file and the rgb max
-  uint16_t commentary, max_rgb;
+  // width, height and the rgb max value from the header
+  unsigned int width, height, max_rgb;
   // declare one pointer to the FILE opened ("rb" keeps binary pixel data intact)
   FILE *fp = fopen(file, "rb");
   // check if the file exists
@@ -29,28 +67,21 @@ ppm_decoded_t *ppm_decode(const char *file) {
   if (!img) {
     printf("ppm_decoded_t: unable to alocate the image to heap");
   }
-  
-  //check the commmentaries anmd remove them
-  commentary = getc(fp);
-  while (commentary == '#') {
-    while (getc(fp) != '\n');
-    commentary = getc(fp);
-  }
 
-  // read image size information
-  if (fscanf(fp, "%d %d", &img->dims.width, &img->dims.height) != 2) {
+  // read image size information (comments are skipped inside ppm_read_uint)
+  if (!ppm_read_uint(fp, &width) || !ppm_read_uint(fp, &height)) {
     fprintf(stderr, "Invalid image size (error loading '%s')\n", file);
     exit(1);
   }
+  img->dims.width = width;
+  img->dims.height = height;
 
-  // read rgb component
-  if (fscanf(fp, "%d", &max_rgb) != 1) {
+  // read rgb component; ppm_read_uint consumes the single whitespace
+  // that separates the header from the binary pixel data
+  if (!ppm_read_uint(fp, &max_rgb)) {
     fprintf(stderr, "Invalid rgb component (error loading '%s')\n", file);
     exit(1);
   }
-
-  while (fgetc(fp) != '\n')
-    ;
   // memory allocation for pixel data
   img->pixels = (ppm_pixel_t *)malloc(img->dims.width * img->dims.height * sizeof(ppm_pixel_t));
 
