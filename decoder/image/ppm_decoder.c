@@ -73,6 +73,10 @@ ppm_decoded_t *ppm_decode(const char *file) {
     fprintf(stderr, "Invalid image size (error loading '%s')\n", file);
     exit(1);
   }
+  if (width == 0 || height == 0) {
+    fprintf(stderr, "Empty image dimensions %ux%u (error loading '%s')\n", width, height, file);
+    exit(1);
+  }
   img->dims.width = width;
   img->dims.height = height;
 
@@ -80,6 +84,11 @@ ppm_decoded_t *ppm_decode(const char *file) {
   // that separates the header from the binary pixel data
   if (!ppm_read_uint(fp, &max_rgb)) {
     fprintf(stderr, "Invalid rgb component (error loading '%s')\n", file);
+    exit(1);
+  }
+  // each component is stored in one byte, so maxval must fit in 8 bits
+  if (max_rgb == 0 || max_rgb > 255) {
+    fprintf(stderr, "Unsupported maxval %u, only 8-bit ppm is supported (error loading '%s')\n", max_rgb, file);
     exit(1);
   }
   // memory allocation for pixel data
