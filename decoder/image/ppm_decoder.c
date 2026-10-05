@@ -6,22 +6,23 @@
 
 // TODO: finilize this shit
 ppm_decoded_t *ppm_decode(const char *file) {
-  // ppm image decoded
-  char buff[16];
-  ppm_decoded_t *decoded = NULL;
+  // ppm magic number ("P6")
+  char magic[2];
   ppm_decoded_t *img;
   // commentaries in the ppm file and the rgb max
   uint16_t commentary, max_rgb;
-  // declare one pointer to the FILE opened
-  FILE *fp = fopen(file, "r");
+  // declare one pointer to the FILE opened ("rb" keeps binary pixel data intact)
+  FILE *fp = fopen(file, "rb");
   // check if the file exists
   if (!fp) {
-    printf("ppm_decoded_t: could not open file %s\n", file);
+    fprintf(stderr, "ppm_decode: could not open file %s\n", file);
     return NULL;
   }
   // check if is a .ppm file
-  if (buff[0] != 'P' || buff[1] != '6') {
-    printf("ppm_decoded_t: not a PPM file\n");
+  if (fread(magic, sizeof(magic), 1, fp) != 1 || magic[0] != 'P' || magic[1] != '6') {
+    fprintf(stderr, "ppm_decode: not a PPM file\n");
+    fclose(fp);
+    return NULL;
   }
   // allocate the image for the heap
   img = (ppm_decoded_t *)malloc(sizeof(ppm_decoded_t));
