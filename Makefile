@@ -7,7 +7,7 @@ LDFLAGS := $(shell pkg-config --libs sdl3)
 BUILD_DIR := build
 TARGET    := $(BUILD_DIR)/image-viewer
 
-SRCS := main.c window/window.c render/render.c decoder/image/ppm_decoder.c
+SRCS := main.c window/window.c render/render.c decoder/image/ppm_decoder.c render/image/render_ppm_image.c
 OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 

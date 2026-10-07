@@ -2,7 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "ppm_decoder.h"
+#include "../../decoder/image/ppm_decoder.h"
+#include <SDL3/SDL.h>
 
 #include <SDL3/SDL_render.h>
 
