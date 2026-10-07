@@ -8,20 +8,25 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct image {
+typedef struct image
+{
     uint32_t width;
     uint32_t height;
 } image_t;
 
-typedef struct ppm_pixel {
+typedef struct ppm_pixel
+{
     uint8_t r;
     uint8_t g;
     uint8_t b;
 } ppm_pixel_t;
 
-typedef struct ppm_decoded {
+typedef struct ppm_decoded
+{
     image_t dims;
     ppm_pixel_t *pixels;
 } ppm_decoded_t;
 
-#endif //IMAGE_VIEWER_PPM_DECODER_H
+ppm_decoded_t *ppm_decode(const char *file);
+
+#endif // IMAGE_VIEWER_PPM_DECODER_H
