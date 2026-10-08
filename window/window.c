@@ -44,6 +44,8 @@ int window_run(void) {
             }
         }
         render_draw_solid_color_in_window(ren, 255, 0, 0);
+        //keeps the loop from burning the cpu while idle
+        SDL_Delay(16);
     }
 
     render_shutdown(ren);
