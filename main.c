@@ -19,7 +19,9 @@ int main(void)
     printf("first pixel: (%u, %u, %u)\n",
            img->pixels[0].r, img->pixels[0].g, img->pixels[0].b);
 
+    int exit_code = window_run(img);
+
     free(img->pixels);
     free(img);
-    return window_run();
+    return exit_code;
 }

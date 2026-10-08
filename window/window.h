@@ -8,7 +8,9 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "../render/render.h"
+#include "../decoder/image/ppm_decoder.h"
+#include "../render/image/render_ppm_image.h"
 
-int window_run(void);
+int window_run(ppm_decoded_t *img);
 
-#endif //IMAGE_VIEWER_WINDOW_H
+#endif // IMAGE_VIEWER_WINDOW_H

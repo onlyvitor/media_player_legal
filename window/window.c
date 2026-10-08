@@ -4,50 +4,76 @@
 
 #include "window.h"
 
-//create a window
-int window_run(void) {
-    //check if the SDL is loaded
-    if (!SDL_Init(SDL_INIT_VIDEO)) {
+// create a window
+int window_run(ppm_decoded_t *img)
+{
+    if (img == NULL || img->pixels == NULL)
+    {
+        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "window_run: no image to display");
+        return 1;
+    }
+    // check if the SDL is loaded
+    if (!SDL_Init(SDL_INIT_VIDEO))
+    {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "SDL_Init %s", SDL_GetError());
         return 1;
     }
-    //create a window
+    // create a window
     SDL_Window *window = SDL_CreateWindow(
         "Cool Image Viewer",
         640,
         480,
         0);
-    //check if the window is created
-    if (window == NULL) {
+    // check if the window is created
+    if (window == NULL)
+    {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
         SDL_Quit();
         return 1;
     }
-    //initialize the renderizer
+    // initialize the renderizer
     SDL_Renderer *ren = render_init(window);
-    if (ren == NULL) {
+    if (ren == NULL)
+    {
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
+
+    // upload the pixels once, the texture is reused on every frame
+    SDL_Texture *texture = render_image_create(ren, img);
+    if (texture == NULL)
+    {
+        render_shutdown(ren);
         SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
 
     bool running = true;
-    //Initialize a eventloop
-    while (running) {
-        //create an event,
+
+    // Initialize a eventloop
+    while (running)
+    {
+        // create an event,
         SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            //if the close button window is pressed, the eventloop stop
+        while (SDL_PollEvent(&event))
+        {
+            // if the close button window is pressed, the eventloop stop
             if (event.type == SDL_EVENT_QUIT ||
-                event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
+                event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED)
+            {
                 running = false;
             }
         }
-        render_draw_solid_color_in_window(ren, 255, 0, 0);
-        //keeps the loop from burning the cpu while idle
+
+        render_image(ren, texture);
+
+        // keeps the loop from burning the cpu while idle
         SDL_Delay(16);
     }
 
+    render_image_destroy(texture);
     render_shutdown(ren);
     SDL_DestroyWindow(window);
     SDL_Quit();
