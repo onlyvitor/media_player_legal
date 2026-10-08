@@ -7,6 +7,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_render.h>
 
-void render_image(SDL_Renderer *ren, ppm_decoded_t *img);
+SDL_Texture *render_image_create(SDL_Renderer *ren, const ppm_decoded_t *img);
+void render_image(SDL_Renderer *ren, SDL_Texture *texture);
+void render_image_destroy(SDL_Texture *texture);
 
 #endif
