@@ -4,29 +4,65 @@
 
 #ifndef IMAGE_VIEWER_PPM_DECODER_H
 #define IMAGE_VIEWER_PPM_DECODER_H
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
 
-typedef struct image
-{
-    uint32_t width;
-    uint32_t height;
-} image_t;
+#include <cstdint>
+#include <fstream>
+#include <string>
+#include <vector>
 
-typedef struct ppm_pixel
-{
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-} ppm_pixel_t;
+namespace image {
 
-typedef struct ppm_decoded
-{
-    image_t dims;
-    ppm_pixel_t *pixels;
-} ppm_decoded_t;
+/// Image dimensions, width or height in pixels.
+struct Dims {
+  uint32_t width = 0;
+  uint32_t height = 0;
+};
 
-ppm_decoded_t *ppm_decode(const char *file);
+/// One RGB pixel, one byte per channel.
+struct Pixel {
+  uint8_t r = 0;
+  uint8_t g = 0;
+  uint8_t b = 0;
+};
 
-#endif // IMAGE_VIEWER_PPM_DECODER_H
+/// A decoded PPM image: dimensions plus the pixel buffer.
+/// Owns its pixels; moving transfers ownership, copying is disabled.
+class Image {
+ public:
+  Image() = default;
+  Image(Dims dims, std::vector<Pixel> pixels)
+      : dims_(dims), pixels_(std::move(pixels)) {}
+
+  const Dims &dims() const { return dims_; }
+  const std::vector<Pixel> &pixels() const { return pixels_; }
+  size_t pixel_count() const {
+    return static_cast<size_t>(dims_.width) * static_cast<size_t>(dims_.height);
+  }
+
+ private:
+  Dims dims_;
+  std::vector<Pixel> pixels_;
+};
+
+/// Thrown when a PPM file is missing, malformed or unsupported.
+class DecodeError : public std::runtime_error {
+ public:
+  explicit DecodeError(const std::string &message) : std::runtime_error(message) {}
+};
+
+/// Decodes binary PPM (P6, 8 bits per channel) files from the disk.
+class Decoder {
+ public:
+  /// Opens the file, parses the header and reads every pixel.
+  /// Throws DecodeError when something goes wrong.
+  Image decode(const std::string &file);
+
+ private:
+  // Skips whitespace and '#' comments, then reads one unsigned integer.
+  // Consumes the single whitespace character that follows it.
+  uint32_t read_uint(std::istream &stream, const std::string &file);
+};
+
+}  // namespace image
+
+#endif  // IMAGE_VIEWER_PPM_DECODER_H
