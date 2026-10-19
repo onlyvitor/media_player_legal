@@ -38,11 +38,14 @@ make clean
 ## Estrutura do projeto
 
 ```
+├── include/           # Headers (interface de cada módulo)
+│    ├── app.h         # App: compõe o decodificador, janela, renderer e textura (RAII)
+│    ├── decoder/image # Decoder de Imagens (image::Decoder, image::Image)
+│    ├── window/       # Janela (window::Window, SDL3)
+│    └── render/       # Renderer (render::Renderer) e textura (render::Texture)
 ├── main.cxx           # Ponto de entrada
-├── app.h/.cxx         # App: compõe o decodificador, janela, renderer e textura (RAII)
-├── decoder            # Decoder
-│    └──image          # Decoder de Imagens (image::Decoder, image::Image)
-├── window/            # Criação e gerenciamento da janela (window::Window, SDL3)
-├── render/            # Renderer (render::Renderer) e textura (render::Texture)
+├── decoder            # Implementação do Decoder de imagem
+├── window/            # Implementação da janela
+├── render/            # Implementação do renderer e textura
 └── build/             # Artefatos gerados pelo Makefile
 ```
