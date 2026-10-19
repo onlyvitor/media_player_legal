@@ -8,14 +8,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(SDL3 REQUIRED CONFIG)
 
 add_executable(image_viewer
-        main.cpp
-        window/window.cpp
+        main.cxx
+        window/window.cxx
         window/window.h
-        render/renderer.cpp
+        render/renderer.cxx
         render/renderer.h
-        render/image/texture.cpp
+        render/image/texture.cxx
         render/image/texture.h
-        decoder/image/ppm_decoder.cpp
+        decoder/image/ppm_decoder.cxx
         decoder/image/ppm_decoder.h
 )
 

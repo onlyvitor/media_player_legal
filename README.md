@@ -38,8 +38,8 @@ make clean
 ## Estrutura do projeto
 
 ```
-├── main.cpp           # Ponto de entrada
-├── app.h/.cpp         # App: compõe o decodificador, janela, renderer e textura (RAII)
+├── main.cxx           # Ponto de entrada
+├── app.h/.cxx         # App: compõe o decodificador, janela, renderer e textura (RAII)
 ├── decoder            # Decoder
 │    └──image          # Decoder de Imagens (image::Decoder, image::Image)
 ├── window/            # Criação e gerenciamento da janela (window::Window, SDL3)

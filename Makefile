@@ -7,8 +7,8 @@ LDFLAGS  := $(shell pkg-config --libs sdl3)
 BUILD_DIR := build
 TARGET    := $(BUILD_DIR)/image-viewer
 
-SRCS := main.cpp app.cpp window/window.cpp render/renderer.cpp render/image/texture.cpp decoder/image/ppm_decoder.cpp
-OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
+SRCS := main.cxx app.cxx window/window.cxx render/renderer.cxx render/image/texture.cxx decoder/image/ppm_decoder.cxx
+OBJS := $(SRCS:%.cxx=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 # Regra principal
@@ -18,9 +18,9 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
 
-# Compila cada .cpp para build/<caminho>/<nome>.o
+# Compila cada .cxx para build/<caminho>/<nome>.o
 # mkdir -p garante que build/window/ exista antes do G++ escrever o .o/.d
-$(BUILD_DIR)/%.o: %.cpp
+$(BUILD_DIR)/%.o: %.cxx
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 
