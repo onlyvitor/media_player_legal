@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include "renderer.h"
+#include "image/texture.h"
 
 namespace render {
 
@@ -19,6 +20,16 @@ Renderer::Renderer(SDL_Window *window) {
 Renderer::~Renderer() {
   // destroy the renderer
   SDL_DestroyRenderer(renderer_);
+}
+
+void Renderer::draw(const Texture &texture) {
+  // fill and present the frame
+  SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
+  SDL_RenderClear(renderer_);
+  if (texture.get() != nullptr) {
+    SDL_RenderTexture(renderer_, texture.get(), nullptr, nullptr);
+  }
+  SDL_RenderPresent(renderer_);
 }
 
 }  // namespace render

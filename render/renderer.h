@@ -24,6 +24,10 @@ class Renderer {
 
   ~Renderer();
 
+  /// Clears the screen, draws the texture stretched over the whole
+  /// window and presents the frame to the screen.
+  void draw(const class Texture &texture);
+
   SDL_Renderer *get() const { return renderer_; }
 
  private:
