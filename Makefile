@@ -1,14 +1,14 @@
 # Compilador e flags
-CC      := gcc
-CFLAGS  := -Wall -Wextra -std=c17 $(shell pkg-config --cflags sdl3)
-LDFLAGS := $(shell pkg-config --libs sdl3)
+CXX      := g++
+CXXFLAGS := -Wall -Wextra -std=c++17 $(shell pkg-config --cflags sdl3)
+LDFLAGS  := $(shell pkg-config --libs sdl3)
 
 # Alvos e objetos
 BUILD_DIR := build
 TARGET    := $(BUILD_DIR)/image-viewer
 
-SRCS := main.c window/window.c render/render.c decoder/image/ppm_decoder.c render/image/render_ppm_image.c
-OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
+SRCS := main.cpp app.cpp window/window.cpp render/renderer.cpp render/image/texture.cpp decoder/image/ppm_decoder.cpp
+OBJS := $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 # Regra principal
@@ -16,13 +16,13 @@ all: $(TARGET)
 
 # Linka os objetos no executavel final
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(LDFLAGS)
+	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
 
-# Compila cada .c para build/<caminho>/<nome>.o
-# mkdir -p garante que build/window/ exista antes do GCC escrever o .o/.d
-$(BUILD_DIR)/%.o: %.c
+# Compila cada .cpp para build/<caminho>/<nome>.o
+# mkdir -p garante que build/window/ exista antes do G++ escrever o .o/.d
+$(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@
 
 # Limpa tudo que foi gerado
 clean:
