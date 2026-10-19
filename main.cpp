@@ -4,7 +4,10 @@
 
 #include <iostream>
 
-#include <app.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
+
+#include "app.h"
 
 int main(int argc, char **argv) {
   const std::string path = argc > 1 ? argv[1] : "assets/samoel_notisias.ppm";

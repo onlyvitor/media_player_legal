@@ -7,6 +7,7 @@
 
 #include <SDL3/SDL.h>
 
+#include "../renderer.h"
 #include "../../decoder/image/ppm_decoder.h"
 
 namespace render {
