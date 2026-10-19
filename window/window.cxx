@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-#include "window.h"
+#include "window/window.h"
 
 namespace window {
 

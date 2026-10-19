@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "ppm_decoder.h"
+#include "decoder/image/ppm_decoder.h"
 
 namespace image {
 

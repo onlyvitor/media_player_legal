@@ -20,6 +20,7 @@ add_executable(image_viewer
 )
 
 target_link_libraries(image_viewer PRIVATE SDL3::SDL3)
+target_include_directories(image_viewer PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(image_viewer PRIVATE -Wall -Wextra)

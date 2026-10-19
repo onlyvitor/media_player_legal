@@ -4,8 +4,8 @@
 
 #include <stdexcept>
 
-#include "texture.h"
-#include "../renderer.h"
+#include "render/image/texture.h"
+#include "render/renderer.h"
 
 namespace render {
 
