@@ -9,9 +9,11 @@ Tem como objetivo ser um media player geral para uso geral, isto é, tocar músi
 
 Basicamante so consegue mostar uma cor solida :3
 
+Reescrito em **C++ (C17 → C++17)** com programação orientada a objetos.
+
 ## Dependências
 
-- Compilador C com suporte a **C17** (GCC ou Clang)
+- Compilador **C++** com suporte a **C++17** (GCC ou Clang)
 - **SDL3** (via pkg-config: `pkg-config --cflags sdl3`)
 - **Make** e **pkg-config**
 
@@ -36,10 +38,11 @@ make clean
 ## Estrutura do projeto
 
 ```
-├── main.c           # Ponto de entrada
-├── decoder          # Decoder
-├    └──image        # Decoder de Imagens
-├── window/          # Criação e gerenciamento da janela (SDL3)
-├── render/          # Renderer (SDL_Renderer) e desenho
-└── build/           # Artefatos gerados pelo Makefile
+├── main.cpp           # Ponto de entrada
+├── app.h/.cpp         # App: compõe o decodificador, janela, renderer e textura (RAII)
+├── decoder            # Decoder
+│    └──image          # Decoder de Imagens (image::Decoder, image::Image)
+├── window/            # Criação e gerenciamento da janela (window::Window, SDL3)
+├── render/            # Renderer (render::Renderer) e textura (render::Texture)
+└── build/             # Artefatos gerados pelo Makefile
 ```
