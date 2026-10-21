@@ -3,8 +3,11 @@
 //
 
 #include <cctype>
+#include <cstdint>
 #include <fstream>
-#include <iostream>
+#include <new>
+#include <string>
+#include <utility>
 
 #include "decoder/image/ppm_decoder.h"
 

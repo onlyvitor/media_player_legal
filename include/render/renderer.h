@@ -5,11 +5,11 @@
 #ifndef IMAGE_VIEWER_RENDER_DRAW_H
 #define IMAGE_VIEWER_RENDER_DRAW_H
 
-#include <cstdint>
-
 #include <SDL3/SDL.h>
 
 namespace render {
+
+class Texture;
 
 /// Owns an SDL_Renderer for one SDL_Window.
 /// The renderer is created in the constructor and destroyed on destruction.
@@ -26,7 +26,7 @@ class Renderer {
 
   /// Clears the screen, draws the texture stretched over the whole
   /// window and presents the frame to the screen.
-  void draw(const class Texture &texture);
+  void draw(const Texture &texture);
 
   SDL_Renderer *get() const { return renderer_; }
 

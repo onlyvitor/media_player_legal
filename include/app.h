@@ -5,6 +5,8 @@
 #ifndef IMAGE_VIEWER_APP_H
 #define IMAGE_VIEWER_APP_H
 
+#include <string>
+
 #include "decoder/image/ppm_decoder.h"
 #include "render/renderer.h"
 #include "render/image/texture.h"

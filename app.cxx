@@ -2,8 +2,11 @@
 // Created by vitor on 28/09/2026.
 //
 
+#include <cstdio>
+#include <stdexcept>
+#include <string>
+
 #include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
 
 #include "app.h"
 

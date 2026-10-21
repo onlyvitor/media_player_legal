@@ -5,9 +5,12 @@
 #ifndef IMAGE_VIEWER_PPM_DECODER_H
 #define IMAGE_VIEWER_PPM_DECODER_H
 
+#include <cstddef>
 #include <cstdint>
-#include <fstream>
+#include <iosfwd>
+#include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace image {

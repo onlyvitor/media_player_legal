@@ -3,6 +3,7 @@
 //
 
 #include <stdexcept>
+#include <string>
 
 #include "window/window.h"
 

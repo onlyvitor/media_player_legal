@@ -2,7 +2,9 @@
 // Created by vitor on 28/09/2026.
 //
 
+#include <exception>
 #include <iostream>
+#include <string>
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>

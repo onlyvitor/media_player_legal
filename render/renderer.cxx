@@ -3,6 +3,7 @@
 //
 
 #include <stdexcept>
+#include <string>
 
 #include "render/renderer.h"
 #include "render/image/texture.h"

@@ -2,15 +2,18 @@
 // Created by vitor on 08/10/2026.
 //
 
-#ifndef RENDER_PPM_IMAGE
-#define RENDER_PPM_IMAGE
+#ifndef RENDER_IMAGE_TEXTURE_H
+#define RENDER_IMAGE_TEXTURE_H
 
 #include <SDL3/SDL.h>
 
-#include "render/renderer.h"
-#include "decoder/image/ppm_decoder.h"
+namespace image {
+class Image;
+}
 
 namespace render {
+
+class Renderer;
 
 /// Owns a static SDL_Texture holding the decoded PPM pixels.
 /// The texture is uploaded once in the constructor and reused every frame.
@@ -33,4 +36,4 @@ class Texture {
 
 }  // namespace render
 
-#endif  // RENDER_PPM_IMAGE
+#endif  // RENDER_IMAGE_TEXTURE_H

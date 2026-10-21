@@ -3,8 +3,11 @@
 //
 
 #include <stdexcept>
+#include <string>
 
 #include "render/image/texture.h"
+
+#include "decoder/image/ppm_decoder.h"
 #include "render/renderer.h"
 
 namespace render {
