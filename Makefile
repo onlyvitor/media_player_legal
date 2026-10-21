@@ -1,6 +1,6 @@
 # Compilador e flags
 CXX      := g++
-CXXFLAGS := -Wall -Wextra -std=c++17 -Iinclude $(shell pkg-config --cflags sdl3)
+CXXFLAGS := -Wall -Wextra -std=c++20 -Iinclude $(shell pkg-config --cflags sdl3)
 LDFLAGS  := $(shell pkg-config --libs sdl3)
 
 # Alvos e objetos
