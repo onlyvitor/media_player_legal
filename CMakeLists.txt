@@ -9,14 +9,16 @@ find_package(SDL3 REQUIRED CONFIG)
 
 add_executable(image_viewer
         main.cxx
+        app.cxx
         window/window.cxx
-        window/window.h
         render/renderer.cxx
-        render/renderer.h
         render/image/texture.cxx
-        render/image/texture.h
         decoder/image/ppm_decoder.cxx
-        decoder/image/ppm_decoder.h
+        include/app.h
+        include/window/window.h
+        include/render/renderer.h
+        include/render/image/texture.h
+        include/decoder/image/ppm_decoder.h
 )
 
 target_link_libraries(image_viewer PRIVATE SDL3::SDL3)
